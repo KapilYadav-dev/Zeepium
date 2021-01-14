@@ -3,7 +3,7 @@
     package="in.kay.zeepium">
 
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,9 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Apptheme">
-        <activity android:name=".Scan"></activity>
-        <activity android:name=".Player" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Views.Scan"></activity>
+        <activity android:name=".Views.Player" />
+        <activity android:name=".Views.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

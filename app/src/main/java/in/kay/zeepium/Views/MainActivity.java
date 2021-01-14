@@ -1,4 +1,4 @@
-package in.kay.zeepium;
+package in.kay.zeepium.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.budiyev.android.codescanner.CodeScanner;
+import in.kay.zeepium.R;
 
 public class MainActivity extends AppCompatActivity {
 

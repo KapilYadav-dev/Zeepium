@@ -1,4 +1,4 @@
-package in.kay.zeepium;
+package in.kay.zeepium.Model;
 
 public class ResponseModel {
     String url,title,from,date;
