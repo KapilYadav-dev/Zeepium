@@ -134,14 +134,6 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/iv_report"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:onClick="Report"
-            android:src="@drawable/ic_bad" />
-
     </LinearLayout>
 
 </RelativeLayout>

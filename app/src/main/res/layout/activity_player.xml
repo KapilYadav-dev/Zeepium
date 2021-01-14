@@ -29,7 +29,7 @@
             android:layout_height="50dp"
             android:layout_gravity="end"
             android:padding="10dp"
-            android:src="@drawable/watermark"/>
+            android:src="@drawable/ic_zeepium_logo"/>
     </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

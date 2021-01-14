@@ -33,14 +33,19 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //ExoPlayer
-    implementation 'com.google.android.exoplayer:exoplayer:r2.4.0'
-    implementation 'com.google.android.exoplayer:exoplayer-core:r2.4.0'
-    implementation 'com.google.android.exoplayer:exoplayer-dash:r2.4.0'
-    implementation 'com.google.android.exoplayer:exoplayer-hls:r2.4.0'
-    implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:r2.4.0'
-    implementation 'com.google.android.exoplayer:exoplayer-ui:r2.4.0'
+    implementation 'com.google.android.exoplayer:exoplayer:2.11.1'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.11.1'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.11.1'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.11.1'
+    implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.11.1'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.11.1'
+    //QR Scanner
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //GSON
+    implementation 'com.google.code.gson:gson:2.8.6'
 }
