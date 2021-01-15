@@ -2,6 +2,7 @@ package in.kay.zeepium.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -123,13 +124,18 @@ public class Player extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         releasePlayer();
+        this.finish();
+        startActivity(new Intent(this,MainActivity.class));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         releasePlayer();
+    }
+
+    public void Back(View view) {
+        onBackPressed();
     }
 }

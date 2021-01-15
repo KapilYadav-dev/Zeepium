@@ -24,13 +24,13 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_marginTop="30dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="32dp"
             android:padding="10dp"
-            android:src="@drawable/ic_zeepium_logo"/>
+            android:src="@drawable/watermark"/>
     </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

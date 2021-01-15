@@ -2,6 +2,7 @@ package in.kay.zeepium.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -10,17 +11,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
+import com.github.thunder413.datetimeutils.DateTimeStyle;
+import com.github.thunder413.datetimeutils.DateTimeUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import in.kay.zeepium.Api.RetrofitClient;
 import in.kay.zeepium.Model.ResponseModel;
 import in.kay.zeepium.R;
+import io.paperdb.Paper;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,9 +91,8 @@ public class Scan extends AppCompatActivity {
             }
 
             private String getDate() {
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM");
-                Date date = new Date();
-                return dateFormat.format(date);
+                String date= DateTimeUtils.formatWithStyle(new Date(), DateTimeStyle.FULL);
+                return date;
             }
 
             @Override
@@ -100,6 +105,19 @@ public class Scan extends AppCompatActivity {
     }
 
     private void SaveData(String id, String url, String title, String date) {
+        Toast.makeText(this, ""+url+title+date+id, Toast.LENGTH_SHORT).show();
+        List<ResponseModel> list =Paper.book().read("History");
+        ResponseModel responseModel=new ResponseModel();
+        responseModel.setId(id);
+        responseModel.setUrl(url);
+        responseModel.setTitle(title);
+        responseModel.setDate(date);
+        if (list==null) list.add(0,responseModel);
+        else list.add(list.size(),responseModel);
+
+
+
+        Paper.book().write("History", list);
     }
 
 
