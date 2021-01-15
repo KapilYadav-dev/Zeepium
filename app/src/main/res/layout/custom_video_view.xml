@@ -9,6 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
+        android:layout_marginEnd="160dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="30dp">
@@ -29,7 +30,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
-            android:fontFamily="@font/raleway_medium"
+            android:fontFamily="@font/gilroybold"
             android:maxLines="1"
             android:text="Avenger End:GAME"
             android:textColor="@color/white"
@@ -79,16 +80,6 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/ic_share"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp" />
-
-    <ImageView
-        android:id="@+id/lock"
-        android:onClick="LockMode"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_lock"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="50dp" />
     <LinearLayout
