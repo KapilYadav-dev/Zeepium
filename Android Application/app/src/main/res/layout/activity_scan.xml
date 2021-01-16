@@ -22,6 +22,26 @@
         app:frameThickness="10dp"
         app:maskColor="#75000000"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="250dp"
+        android:text="Scanning QR code"
+        android:textSize="24dp"
+        android:fontFamily="@font/gilroybold"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:textAlignment="center"
+        android:layout_marginBottom="8dp"
+        android:text="Powered by mrkaydev"
+        android:textSize="14dp"
+        android:fontFamily="@font/gilroymedium"
+        android:textColor="@color/white"/>
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
