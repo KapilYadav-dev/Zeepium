@@ -1,12 +1,13 @@
 package in.kay.zeepium.Views;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.budiyev.android.codescanner.CodeScanner;
@@ -17,8 +18,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +34,7 @@ import retrofit2.Response;
 public class Scan extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +65,7 @@ public class Scan extends AppCompatActivity {
     private void DoWork(String url, String title) {
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().search(url);
         call.enqueue(new Callback<ResponseBody>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 progressBar.setVisibility(View.GONE);
@@ -72,8 +73,11 @@ public class Scan extends AppCompatActivity {
                     Gson gson = new Gson();
                     ResponseModel responseModel;
                     String json = null;
-                    try { json=response.body().string();
-                    } catch (IOException e) { e.printStackTrace(); }
+                    try {
+                        json = response.body().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     responseModel = gson.fromJson(json, ResponseModel.class);
                     String id = responseModel.getId();
                     SaveData(id, url, title, getDate());
@@ -91,7 +95,7 @@ public class Scan extends AppCompatActivity {
             }
 
             private String getDate() {
-                String date= DateTimeUtils.formatWithStyle(new Date(), DateTimeStyle.FULL);
+                String date = DateTimeUtils.formatWithStyle(new Date(), DateTimeStyle.FULL);
                 return date;
             }
 
@@ -104,19 +108,35 @@ public class Scan extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void SaveData(String id, String url, String title, String date) {
-        Toast.makeText(this, ""+url+title+date+id, Toast.LENGTH_SHORT).show();
-        List<ResponseModel> list =Paper.book().read("History");
-        ResponseModel responseModel=new ResponseModel();
+        List<ResponseModel> list = Paper.book().read("History");
+        boolean present = contains(list, id);
+        if (!present) dowork(id, url, title, date);
+    }
+
+    private static boolean contains(List<ResponseModel> list, String id) {
+        if (list == null)
+            return false;
+        for (ResponseModel rm : list) {
+            if (rm.getId().equalsIgnoreCase(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void dowork(String id, String url, String title, String date) {
+        List<ResponseModel> list = Paper.book().read("History");
+        ResponseModel responseModel = new ResponseModel();
         responseModel.setId(id);
         responseModel.setUrl(url);
         responseModel.setTitle(title);
         responseModel.setDate(date);
-        if (list==null) list.add(0,responseModel);
-        else list.add(list.size(),responseModel);
-
-
-
+        if (list == null || list.size() == 0) {
+            list = new ArrayList<>();
+            list.add(0, responseModel);
+        } else list.add(list.size(), responseModel);
         Paper.book().write("History", list);
     }
 
@@ -132,4 +152,5 @@ public class Scan extends AppCompatActivity {
         mCodeScanner.releaseResources();
         super.onPause();
     }
+
 }

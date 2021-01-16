@@ -1,6 +1,7 @@
 package in.kay.zeepium.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -15,6 +16,8 @@ import java.util.List;
 
 import in.kay.zeepium.Model.ResponseModel;
 import in.kay.zeepium.R;
+import in.kay.zeepium.Views.Player;
+import in.kay.zeepium.Views.Scan;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     List<ResponseModel> list;
@@ -36,6 +39,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.tvName.setText(list.get(position).getTitle());
         holder.tvDate.setText(list.get(position).getDate());
+        holder.itemView.setOnClickListener(view -> {
+
+        });
     }
 
     @Override
