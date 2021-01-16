@@ -4,6 +4,8 @@
 <h1>Short Description </h1>
 An android application used to watch all premium content @free from Zee5 without any hassle😄
 
+# Alert !! Only for Educational Purpose 💀!!
+
 # How to use 
  * Install the Zeepium extension in Google chrome.
  * Start the backend server using npm start.
@@ -13,10 +15,8 @@ An android application used to watch all premium content @free from Zee5 without
   
 # How this flaw works ??
 So, zee5 has their own API used to get all relevant data about that stuff with id.
-## https://gwapi.zee5.com/content/details/${id}?translation=en&country=IN&version=2
 We need to pass id and access token while making request and the server will return us with useful data.
-We will get our accesstoken from this url :-
-## https://useraction.zee5.com/tokennd/
+We will get our accesstoken.
 
 <h1>Screenshots</h1>
 
