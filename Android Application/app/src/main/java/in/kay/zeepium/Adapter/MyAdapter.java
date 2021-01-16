@@ -1,23 +1,36 @@
 package in.kay.zeepium.Adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
-
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.thunder413.datetimeutils.DateTimeStyle;
+import com.github.thunder413.datetimeutils.DateTimeUtils;
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
+import in.kay.zeepium.Api.RetrofitClient;
 import in.kay.zeepium.Model.ResponseModel;
 import in.kay.zeepium.R;
 import in.kay.zeepium.Views.Player;
-import in.kay.zeepium.Views.Scan;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     List<ResponseModel> list;
@@ -40,7 +53,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.tvName.setText(list.get(position).getTitle());
         holder.tvDate.setText(list.get(position).getDate());
         holder.itemView.setOnClickListener(view -> {
-
+            DoWork(list.get(position).getUrl(),list.get(position).getTitle());
         });
     }
 
@@ -50,12 +63,51 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName,tvDate;
+        TextView tvName, tvDate;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvDate=itemView.findViewById(R.id.tvDate);
-            tvName=itemView.findViewById(R.id.tvName);
+            tvDate = itemView.findViewById(R.id.tvDate);
+            tvName = itemView.findViewById(R.id.tvName);
 
         }
+    }
+    public void DoWork(String url, String title) {
+        ProgressDialog progressDialog;
+        progressDialog=new ProgressDialog(context);
+        progressDialog.show();
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().search(url);
+        call.enqueue(new Callback<ResponseBody>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                progressDialog.dismiss();
+                if (response.code() == 200) {
+                    Gson gson = new Gson();
+                    ResponseModel responseModel;
+                    String json = null;
+                    try {
+                        json = response.body().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    responseModel = gson.fromJson(json, ResponseModel.class);
+                    String streamUrl = responseModel.getUrl();
+                    Intent intent = new Intent(context, Player.class);
+                    intent.putExtra("url", streamUrl);
+                    intent.putExtra("title", title);
+                    context.startActivity(intent);
+                } else if (response.code() == 404) {
+                    Toast.makeText(context, "Desired content isn't swappable : (", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(context, "Server is down...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

@@ -1,9 +1,13 @@
 package in.kay.zeepium.Views;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private void Show(List<ResponseModel> list) {
         Collections.reverse(list);
         rv.setVisibility(View.VISIBLE);
+        findViewById(R.id.tvClearAll).setVisibility(View.VISIBLE);
+        findViewById(R.id.imageView5).setVisibility(View.VISIBLE);
         cl.setVisibility(View.GONE);
         adapter = new MyAdapter(list, this);
         rv.setAdapter(adapter);
@@ -54,10 +60,31 @@ public class MainActivity extends AppCompatActivity {
 
     private void empty() {
         rv.setVisibility(View.GONE);
+        findViewById(R.id.tvClearAll).setVisibility(View.GONE);
+        findViewById(R.id.imageView5).setVisibility(View.GONE);
         cl.setVisibility(View.VISIBLE);
     }
 
     public void GotoScan(View view) {
-        startActivity(new Intent(this, Scan.class));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, 1000);
+        } else {
+            startActivity(new Intent(this, Scan.class));
+        }
+    }
+
+    public void ClearAll(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Alert !");
+        builder.setMessage("Do you really want to continue ?");
+        builder.setPositiveButton("Yes, go on", (dialog, which) -> {
+            Paper.book().delete("History");
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            dialog.dismiss();
+        });
+        builder.setNegativeButton("Please, No!", (dialog, which) -> dialog.dismiss());
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
