@@ -7,7 +7,7 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,18 +15,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.thunder413.datetimeutils.DateTimeStyle;
-import com.github.thunder413.datetimeutils.DateTimeUtils;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 import in.kay.zeepium.Api.RetrofitClient;
 import in.kay.zeepium.Model.ResponseModel;
 import in.kay.zeepium.R;
 import in.kay.zeepium.Views.Player;
+import io.paperdb.Paper;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,8 +50,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.tvName.setText(list.get(position).getTitle());
         holder.tvDate.setText(list.get(position).getDate());
+      /*  holder.ivDelete.setOnClickListener(view -> {
+            list.remove(position);
+            notifyDataSetChanged();
+            Paper.book().write("History", list);
+
+        });
+       */
         holder.itemView.setOnClickListener(view -> {
-            DoWork(list.get(position).getUrl(),list.get(position).getTitle());
+            DoWork(list.get(position).getUrl(), list.get(position).getTitle());
         });
     }
 
@@ -64,17 +69,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvDate;
+        ImageView ivDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvDate = itemView.findViewById(R.id.tvDate);
             tvName = itemView.findViewById(R.id.tvName);
-
+            ivDelete = itemView.findViewById(R.id.imageView4);
         }
     }
+
     public void DoWork(String url, String title) {
         ProgressDialog progressDialog;
-        progressDialog=new ProgressDialog(context);
+        progressDialog = new ProgressDialog(context);
         progressDialog.show();
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().search(url);
         call.enqueue(new Callback<ResponseBody>() {

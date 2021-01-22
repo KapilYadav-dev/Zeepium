@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void ReadData() {
         List<ResponseModel> list = Paper.book().read("History");
-        if (list == null) empty();
+        if (list == null || list.size()==0) empty();
         else {
             Show(list);
         }
